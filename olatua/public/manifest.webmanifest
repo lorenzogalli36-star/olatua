@@ -1,0 +1,12 @@
+{
+  "name": "Olatua",
+  "short_name": "Olatua",
+  "description": "Parte de olas de la costa vasca",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A1B24",
+  "theme_color": "#0A1B24",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
