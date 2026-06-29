@@ -8,8 +8,6 @@ export interface Spot {
   lat: number;
   lon: number;
   level: Level;
-  // direzione (gradi) da cui soffia il vento terral ideale per questo spot.
-  // Da tarare dopo qualche uscita, come avevi annotato.
   offshore: number;
 }
 

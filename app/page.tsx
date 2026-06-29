@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { fetchConditions, type SpotConditions } from "@/lib/openmeteo";
 import { statusFor, reasonText, bestWindow, dirName } from "@/lib/scoring";
 import SpotCard from "@/components/SpotCard";
@@ -29,6 +30,12 @@ export default async function Home() {
             parte de olas · costa de bizkaia
           </p>
         </div>
+        <Link
+          href="/plan"
+          className="flex-shrink-0 rounded-full border border-marea/50 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wide text-marea"
+        >
+          plan · quién va
+        </Link>
       </header>
 
       {!conditions && (
