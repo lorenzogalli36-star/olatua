@@ -5,12 +5,7 @@ const TZ = "Europe/Madrid";
 
 function madridNow() {
   const f = new Intl.DateTimeFormat("en-CA", {
-    timeZone: TZ,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    hour12: false,
+    timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hour12: false,
   });
   const p: Record<string, string> = {};
   for (const part of f.formatToParts(new Date())) p[part.type] = part.value;
@@ -18,10 +13,7 @@ function madridNow() {
   return { date: `${p.year}-${p.month}-${p.day}`, hour };
 }
 
-interface Hourly {
-  time: string[];
-  [k: string]: unknown;
-}
+interface Hourly { time: string[]; [k: string]: unknown; }
 
 export interface SpotConditions {
   spot: (typeof SPOTS)[number];
@@ -70,14 +62,9 @@ export async function fetchConditions(): Promise<SpotConditions[]> {
     const recs: HourRec[] = mh.time.map((t, k) => {
       const w = windByTime[t] ?? { spd: 0, dir: 0 };
       return {
-        time: t,
-        h: Number(t.slice(11, 13)),
-        date: t.slice(0, 10),
-        wave: waveH[k] ?? 0,
-        period: waveP[k] ?? 0,
-        sst: sst[k] ?? null,
-        windSpeed: w.spd,
-        windFrom: w.dir,
+        time: t, h: Number(t.slice(11, 13)), date: t.slice(0, 10),
+        wave: waveH[k] ?? 0, period: waveP[k] ?? 0, sst: sst[k] ?? null,
+        windSpeed: w.spd, windFrom: w.dir,
       };
     });
 

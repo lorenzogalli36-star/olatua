@@ -2,24 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Anton, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const display = Anton({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
-const sans = Hanken_Grotesk({
-  weight: ["400", "500"],
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-const mono = JetBrains_Mono({
-  weight: ["400", "500"],
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-});
+const display = Anton({ weight: "400", subsets: ["latin"], variable: "--font-display", display: "swap" });
+const sans = Hanken_Grotesk({ weight: ["400", "500"], subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = JetBrains_Mono({ weight: ["400", "500"], subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
   title: "Olatua · parte de olas · costa de Bizkaia",

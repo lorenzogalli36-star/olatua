@@ -19,10 +19,7 @@ export interface Checkin {
 
 export function madridToday(): string {
   return new Intl.DateTimeFormat("en-CA", {
-    timeZone: TZ,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
+    timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit",
   }).format(new Date());
 }
 
@@ -40,9 +37,7 @@ export function nextDays(n: number, today: string = madridToday()): DayInfo[] {
   return Array.from({ length: n }, (_, i) => {
     const date = addDays(today, i);
     const obj = new Date(`${date}T12:00:00Z`);
-    const weekday = new Intl.DateTimeFormat("es-ES", { weekday: "short", timeZone: "UTC" })
-      .format(obj)
-      .replace(".", "");
+    const weekday = new Intl.DateTimeFormat("es-ES", { weekday: "short", timeZone: "UTC" }).format(obj).replace(".", "");
     const day = new Intl.DateTimeFormat("es-ES", { day: "numeric", timeZone: "UTC" }).format(obj);
     const label = i === 0 ? "Hoy" : i === 1 ? "Mañana" : weekday;
     return { date, label, weekday, day };
@@ -57,11 +52,14 @@ export async function ensureAuth(): Promise<void> {
   }
 }
 
-export async function fetchCheckins(date: string): Promise<Checkin[]> {
+// Legge tutti i check-in in un intervallo di date (per l'agenda dei prossimi giorni).
+export async function fetchUpcoming(fromDate: string, toDate: string): Promise<Checkin[]> {
   const { data, error } = await supabase
     .from("checkins")
     .select("id,spot_id,date,user_id,name")
-    .eq("date", date)
+    .gte("date", fromDate)
+    .lte("date", toDate)
+    .order("date", { ascending: true })
     .order("created_at", { ascending: true });
   if (error) throw error;
   return (data as Checkin[]) ?? [];
@@ -70,9 +68,7 @@ export async function fetchCheckins(date: string): Promise<Checkin[]> {
 export async function addCheckin(spotId: string, date: string, name: string): Promise<void> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("sin sesión");
-  const { error } = await supabase
-    .from("checkins")
-    .insert({ spot_id: spotId, date, user_id: user.id, name });
+  const { error } = await supabase.from("checkins").insert({ spot_id: spotId, date, user_id: user.id, name });
   if (error) throw error;
 }
 
@@ -80,10 +76,7 @@ export async function removeCheckin(spotId: string, date: string): Promise<void>
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("sin sesión");
   const { error } = await supabase
-    .from("checkins")
-    .delete()
-    .eq("spot_id", spotId)
-    .eq("date", date)
-    .eq("user_id", user.id);
+    .from("checkins").delete()
+    .eq("spot_id", spotId).eq("date", date).eq("user_id", user.id);
   if (error) throw error;
 }
